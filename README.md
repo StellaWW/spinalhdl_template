@@ -78,10 +78,9 @@ Refresh the repository page in your browser until you see a 2nd commit by `actio
 Once you have created a repository from this template and the `Template cleanup` workflow has completed, you can click the green `Code` to get a link for cloning your repository.
 
 ```sh
-git clone git@github.com:%REPOSITORY%.git
-cd %NAME%
+git clone git@github.com:StellaWW/spinalhdl_template.git
+cd spinalhdl_template
 ```
-(The variables wrapped in `%` will be filled in by the template cleanup) <!-- #REMOVE-ON-CLEANUP# -->
 
 ### Try the example code
 
@@ -113,7 +112,7 @@ Don't forget:
 
 Then commit above changes and push it to your repository:
 ```sh
-git commit -m 'Starting %NAME%'
+git commit -m 'Starting spinalhdl_template'
 git push origin main
 ```
 

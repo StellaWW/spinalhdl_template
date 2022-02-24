@@ -29,12 +29,12 @@ object mylib extends CommonModule with ScalafmtModule with PublishModule {
 
   override def pomSettings = PomSettings(
     description = "My first SpinalHDL project",
-    organization = "%ORGANIZATION%",
-    url = "https://github.com/%REPOSITORY%",
+    organization = "com.github.stellaww.spinalhdltemplate",
+    url = "https://github.com/StellaWW/spinalhdl_template",
     licenses = Seq(License.MIT), // Do NOT forget change it to your license!
-    versionControl = VersionControl.github("%ACTOR%", "%NAME%"),
+    versionControl = VersionControl.github("stellaww", "spinalhdl_template"),
     developers = Seq(
-      Developer("%ACTOR%", "%ACTOR%", "https://github.com/%ACTOR%")
+      Developer("stellaww", "stellaww", "https://github.com/stellaww")
     )
   )
 }
