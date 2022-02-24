@@ -1,0 +1,64 @@
+# Workflow to cleanup projects created from this template
+# Adapted from workflow of the same name in https://github.com/JetBrains/intellij-platform-plugin-template
+# SPDX-License-Identifier: Apache-2.0
+
+name: Template Cleanup
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  # Run cleaning process only if workflow is triggered by the non-spinalhdl-template repository.
+  template-cleanup:
+    name: Template Cleanup
+    runs-on: ubuntu-latest
+    if: github.event.repository.name != 'spinalhdl-template'
+    steps:
+
+      # Check out current repository
+      - name: Fetch Sources
+        uses: actions/checkout@v2.3.4
+
+      # Cleanup project
+      - name: Cleanup
+        run: |
+          export LC_CTYPE=C
+          export LANG=C
+
+          # Prepare variables
+          NAME="${GITHUB_REPOSITORY##*/}"
+          ACTOR=$(echo $GITHUB_ACTOR | tr '[:upper:]' '[:lower:]')
+          SAFE_NAME=$(echo $NAME | sed 's/[^a-zA-Z0-9]//g' | tr '[:upper:]' '[:lower:]')
+          SAFE_ACTOR=$(echo $ACTOR | sed 's/[^a-zA-Z0-9]//g' | tr '[:upper:]' '[:lower:]')
+          ORGANIZATION="com.github.$SAFE_ACTOR.$SAFE_NAME"
+
+          # Replace placeholders in project files
+          sed -i "s/%NAME%/$NAME/g" build.sc README.md
+          sed -i "s:%REPOSITORY%:${GITHUB_REPOSITORY}:g" build.sc README.md
+          sed -i "s/%ACTOR%/$ACTOR/g" build.sc
+          sed -i "s/%ORGANIZATION%/$ORGANIZATION/g" build.sc
+
+          # Remove lines marked with #REMOVE-ON-CLEANUP#
+          sed -i '/#REMOVE-ON-CLEANUP#/d' README.md
+
+          # Cleanup
+          rm -rf \
+            .github/workflows/template-cleanup.yml \
+            LICENSE
+
+      # Commit modified files
+      - name: Commit files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Template cleanup"
+
+      # Push changes
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          branch: main
+          github_token: ${{ secrets.GITHUB_TOKEN }}
