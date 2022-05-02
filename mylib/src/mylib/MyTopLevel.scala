@@ -32,11 +32,14 @@ object MyTopLevelVhdl extends App {
   SpinalVhdl(new MyTopLevel)
 }
 
+// //Define a custom SpinalHDL configuration with synchronous reset instead of the default asynchronous one. This configuration can be resued everywhere
+// object MySpinalConfig extends SpinalConfig(defaultConfigForClockDomains = ClockDomainConfig(resetKind = SYNC))
 
-//Define a custom SpinalHDL configuration with synchronous reset instead of the default asynchronous one. This configuration can be resued everywhere
-object MySpinalConfig extends SpinalConfig(defaultConfigForClockDomains = ClockDomainConfig(resetKind = SYNC))
+//Define a custom SpinalHDL configuration with specified dir and synchronous reset instead of the default asynchronous one.
+object MySpinalConfig extends SpinalConfig(mode = Verilog, targetDirectory="/home/tianjiao/spinalhdl_template/verilog",defaultConfigForClockDomains = ClockDomainConfig(resetKind = SYNC))
 
 //Generate the MyTopLevel's Verilog using the above custom configuration.
 object MyTopLevelVerilogWithCustomConfig extends App {
-  MySpinalConfig.generateVerilog(new MyTopLevel)
+  // MySpinalConfig.generateVerilog(new MyTopLevel)
+    MySpinalConfig.generate(new MyTopLevel)
 }
