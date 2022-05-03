@@ -12,6 +12,7 @@
 *.vcd
 simWorkspace/
 /verilog/
+mill.LVmHxr
 # ==============================================================================
 # Language & Build Tool - Java
 
