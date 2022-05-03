@@ -9,10 +9,17 @@ import spinal.lib.soc.pinsec._
 //   SpinalVerilog(new Pinsec(500 MHz))
 // }
 
+object MySpinalConfig
+    extends SpinalConfig(
+      targetDirectory = "verilog",
+      defaultConfigForClockDomains = ClockDomainConfig(resetKind = SYNC)
+    )
+
 //Generate the Pinsec_test's Verilog using the custom configuration in MyTopLevel.
 // object Pinsec_testVerilog extends App {
 //   MySpinalConfig.generate(new Pinsec(500 MHz))
 // }
+
 object Pinsec_testVerilog extends App {
-  SpinalVerilog(new Pinsec(500 MHz))
+  MySpinalConfig.generateVerilog(new Pinsec(500 MHz))
 }
